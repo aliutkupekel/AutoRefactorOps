@@ -18,3 +18,7 @@ The architecture logically separates generative tasks from execution tasks. Modu
 - `/agents`: Contains all 4 specialized agent logic.
 - `/mcp_bus`: The strict schema and ACL verifier.
 - `/target_repo`: The sandbox environment containing code to be refactored.
+
+## Contributors
+* Ali Utku Pekel
+* Alperen Atalay
