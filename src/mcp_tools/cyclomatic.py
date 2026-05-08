@@ -14,12 +14,8 @@ class ComplexityAnalyzer:
         Returns -1 if the code contains syntax errors and cannot be parsed.
         """
         try:
-            # Radon cc_visit analyzes the AST and returns complexity blocks
             blocks = cc_visit(code)
-            # Sum the complexity of all functions/classes in the code
             total_complexity = sum([block.complexity for block in blocks])
-            
-            # If the code is just a simple script with no functions, complexity is at least 1
             return total_complexity if total_complexity > 0 else 1
         except SyntaxError:
             return -1
@@ -30,7 +26,7 @@ class ComplexityAnalyzer:
     def evaluate_debt_reduction(original_code: str, refactored_code: str) -> Dict[str, Any]:
         """
         Calculates ΔD = C_orig - C_refact
-        A valid refactoring cycle must result in ΔD > 0 (or at least >= 0 if purely structural).
+        A valid refactoring cycle must result in ΔD > 0.
         """
         c_orig = ComplexityAnalyzer.calculate_total_complexity(original_code)
         c_refact = ComplexityAnalyzer.calculate_total_complexity(refactored_code)
@@ -52,7 +48,6 @@ class ComplexityAnalyzer:
         }
 
 if __name__ == "__main__":
-    # Test Senaryosu
     spaghetti_code = """
 def process_data(data):
     if data:
@@ -75,9 +70,9 @@ def process_data(data):
         print(mapping.get(item, "Other"))
     """
 
-    print("--- Karmaşıklık Testi ---")
+    print("--- Complexity Test ---")
     result = ComplexityAnalyzer.evaluate_debt_reduction(spaghetti_code, clean_code)
-    print(f"Orijinal Kod Karmaşıklığı (C_orig): {result.get('original_complexity')}")
-    print(f"Refactor Edilmiş Kod Karmaşıklığı (C_refact): {result.get('refactored_complexity')}")
-    print(f"Teknik Borç Düşüşü (ΔD): {result.get('delta_d')}")
-    print(f"Kod Gelişti mi?: {result.get('is_improved')}")
+    print(f"Original Code Complexity (C_orig): {result.get('original_complexity')}")
+    print(f"Refactored Code Complexity (C_refact): {result.get('refactored_complexity')}")
+    print(f"Technical Debt Reduction (ΔD): {result.get('delta_d')}")
+    print(f"Is Code Improved?: {result.get('is_improved')}")

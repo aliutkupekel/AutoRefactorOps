@@ -65,14 +65,11 @@ class ASTValidator:
         return is_safe, drift_reasons
 
 if __name__ == "__main__":
-    # Sistemin çalıştığını kanıtlayan hızlı test
     code_before = "import math\ndef calc(r):\n    return math.pi * r"
-    
-    # LLM'in uydurduğu kötü senaryo: 'os' kütüphanesini uydurmuş ve 'r' parametresini 'radius' yapmış
     code_after_bad = "import math\nimport os\ndef calc(radius):\n    return math.pi * radius"
     
     validator = ASTValidator(code_before, code_after_bad)
     safe, reasons = validator.check_semantic_drift()
-    print(f"Kod Güvenli mi?: {safe}")
+    print(f"Is Code Safe?: {safe}")
     for r in reasons:
         print(f"- {r}")
