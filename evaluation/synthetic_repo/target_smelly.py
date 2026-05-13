@@ -1,30 +1,35 @@
-def calculate_shipping(distance, weight, is_member):
+def get_discount(customer_type, years_active):
     """
-    Calculates shipping cost based on distance, weight, and membership.
-    WARNING: Highly nested spaghetti code!
+    Calculates discount percentage based on customer type and loyalty.
+    WARNING: High Cyclomatic Complexity!
     """
-    cost = 0
-    if is_member:
-        if distance < 50:
-            if weight < 10:
-                cost = 5
-            else:
-                cost = 10
+    discount = 0
+    
+    if customer_type == "regular":
+        if years_active < 1:
+            discount = 0
         else:
-            if weight < 10:
-                cost = 15
+            if years_active <= 3:
+                discount = 5
             else:
-                cost = 20
+                discount = 10
+    elif customer_type == "premium":
+        if years_active < 1:
+            discount = 10
+        else:
+            if years_active <= 3:
+                discount = 15
+            else:
+                discount = 20
+    elif customer_type == "vip":
+        if years_active < 1:
+            discount = 20
+        else:
+            if years_active <= 3:
+                discount = 25
+            else:
+                discount = 30
     else:
-        if distance < 50:
-            if weight < 10:
-                cost = 10
-            else:
-                cost = 15
-        else:
-            if weight < 10:
-                cost = 20
-            else:
-                cost = 25
-                
-    return cost
+        discount = 0
+        
+    return discount

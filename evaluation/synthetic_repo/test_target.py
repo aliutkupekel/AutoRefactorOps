@@ -1,17 +1,20 @@
 import pytest
-from target_smelly import calculate_shipping
+from target_smelly import get_discount
 
-def test_member_short_distance_light_weight():
-    assert calculate_shipping(40, 5, True) == 5
+def test_regular_customer():
+    assert get_discount("regular", 0) == 0
+    assert get_discount("regular", 2) == 5
+    assert get_discount("regular", 5) == 10
 
-def test_member_short_distance_heavy_weight():
-    assert calculate_shipping(40, 15, True) == 10
+def test_premium_customer():
+    assert get_discount("premium", 0) == 10
+    assert get_discount("premium", 2) == 15
+    assert get_discount("premium", 5) == 20
 
-def test_member_long_distance_heavy_weight():
-    assert calculate_shipping(100, 15, True) == 20
+def test_vip_customer():
+    assert get_discount("vip", 0) == 20
+    assert get_discount("vip", 2) == 25
+    assert get_discount("vip", 5) == 30
 
-def test_non_member_short_distance_light_weight():
-    assert calculate_shipping(40, 5, False) == 10
-
-def test_non_member_long_distance_heavy_weight():
-    assert calculate_shipping(100, 15, False) == 25
+def test_unknown_customer():
+    assert get_discount("unknown", 5) == 0
