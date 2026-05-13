@@ -83,6 +83,14 @@ with tab2:
     # Trigger Button
     if st.button("🚀 INITIATE AUTONOMOUS PIPELINE", type="primary", use_container_width=True):
         
+        # SİHİRLİ DOKUNUŞ: Sisteme başlamadan hemen önce, orjinal kodun kopyasını alıyoruz (Before & After için)
+        original_code_before_run = ""
+        try:
+            with open(target_file_path, "r", encoding="utf-8") as f:
+                original_code_before_run = f.read()
+        except:
+            pass
+
         status_text = st.empty()
         progress_bar = st.progress(0)
         
@@ -116,6 +124,31 @@ with tab2:
                 st.error(final_report_clean)
         else:
             st.warning("System finished, but the final report format was unexpected. See details below.")
+
+        # --- YENİ EKLENEN BÖLÜM: BEFORE & AFTER ŞOVU ---
+        st.markdown("### 🔍 Before & After Comparison")
+        col_before, col_after = st.columns(2)
+        
+        with col_before:
+            st.markdown("#### 🍝 Original Code (Before)")
+            st.code(original_code_before_run, language="python") 
+            
+        with col_after:
+            st.markdown("#### ✨ Final Code (After)")
+            try:
+                with open(target_file_path, "r", encoding="utf-8") as f:
+                    final_code_after_run = f.read() # İşlem bittikten sonra dosyanın SON halini okuyoruz
+                
+                # Eğer hata çıktıysa ve sistem Rollback yaptıysa kod aynı kalacaktır. 
+                if final_code_after_run == original_code_before_run:
+                    st.warning("Code is identical to the original (Rollback occurred).")
+                else:
+                    st.success("Code successfully refactored and merged!")
+                    
+                st.code(final_code_after_run, language="python")
+            except Exception as e:
+                st.error("Could not load the final code.")
+        # -----------------------------------------------
         
         with st.expander("🔍 View Detailed Agent Execution Logs (Terminal Output)"):
             st.text(cleaned_output)
