@@ -4,37 +4,37 @@ import contextlib
 from io import StringIO
 from src.main import main
 
-# Sayfa ayarları
+# Page configuration
 st.set_page_config(page_title="AutoRefactorOps", page_icon="🤖", layout="wide")
 
-# Başlık ve Açıklamalar
+# Title and Description
 st.title("🤖 AutoRefactorOps: Multi-Agent System")
 st.markdown("""
-Bu kontrol paneli, Llama 3.3 destekli yapay zeka ajanlarının kod tabanınızı analiz edip, 
-**Technical Debt (Teknik Borç)** oranını düşürmesini ve güvenli bir şekilde **Refactoring** yapmasını sağlar.
+This control panel allows Llama-powered AI agents to analyze your codebase, 
+reduce **Technical Debt**, and perform safe, autonomous **Refactoring** with zero semantic drift.
 """)
 
 st.divider()
 
-# Ajanları Başlatma Butonu
-if st.button("🚀 Refactoring İşlemini Başlat", type="primary", use_container_width=True):
-    with st.spinner("Ajanlar uyandırılıyor ve kod tabanı taranıyor... Lütfen bekleyin (Bu işlem 1-2 dakika sürebilir)."):
+# Trigger Button
+if st.button("🚀 Start Refactoring Pipeline", type="primary", use_container_width=True):
+    with st.spinner("Initializing agents and scanning the codebase... Please wait (This may take 1-2 minutes)."):
         
-        # Terminaldeki çıktıları Streamlit arayüzüne yakalamak için bir tampon (buffer) oluşturuyoruz
+        # Buffer to catch terminal outputs for the Streamlit UI
         output_buffer = StringIO()
         
         with contextlib.redirect_stdout(output_buffer):
             try:
-                # Bizim meşhur main() fonksiyonumuzu çalıştırıyoruz
+                # Trigger the main Multi-Agent crew
                 main()
             except Exception as e:
-                print(f"\nSistem çalışırken bir hata oluştu: {str(e)}")
+                print(f"\nAn error occurred during system execution: {str(e)}")
         
-        # İşlem bitince terminal çıktılarını ekrana yazdırıyoruz
-        st.success("İşlem başarıyla tamamlandı! Ajanların raporunu aşağıdan inceleyebilirsiniz.")
+        # Success message
+        st.success("Pipeline executed successfully! You can review the agents' final report below.")
         
-        # Logları siyah bir kod bloğu (terminal) gibi göster
-        st.text_area("Terminal Logları ve Final Raporu", output_buffer.getvalue(), height=600)
+        # Display logs in a text area
+        st.text_area("Terminal Logs & Final Report", output_buffer.getvalue(), height=600)
         
 st.markdown("---")
 st.caption("AutoRefactorOps v1.0 | Developed for Academic Evaluation")
