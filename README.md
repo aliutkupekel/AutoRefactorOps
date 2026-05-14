@@ -23,3 +23,4 @@ The architecture logically separates generative tasks from execution tasks. Modu
 * Ali Utku Pekel
 * Alperen Atalay
 * Yiğit Kaplan
+* Niyazi Berke Gürbüzler
